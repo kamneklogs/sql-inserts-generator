@@ -3,12 +3,14 @@ package ui;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Locale;
+import java.util.Optional;
 import java.util.Scanner;
 
 import javafx.application.Application;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import model.*;
@@ -56,8 +58,7 @@ public class Main extends Application {
         File selectedDirectory = directoryChooser.showDialog(primaryStage);
         System.out.println(selectedDirectory.getAbsolutePath());
 
-        InsertsGenerator iG = new InsertsGenerator(
-                new File(selectedDirectory.getAbsolutePath() + "/InsersGenerated.sql"));
+        InsertsGenerator iG = new InsertsGenerator(new File(selectedDirectory.getAbsolutePath() + "/INSERTS.sql"));
 
         try {
             iG.generate(insertsData, tableName);
@@ -73,30 +74,36 @@ public class Main extends Application {
 
         }
 
-        Alert confirmation = new Alert(AlertType.INFORMATION);
-
-        confirmation.setTitle("Generación exitosa");
+        Alert confirmation = new Alert(AlertType.CONFIRMATION);
+        confirmation.setTitle("Operación exitosa");
         confirmation.setHeaderText(null);
-        confirmation.setContentText("");
+        confirmation.setContentText("INSERTS.sql generado exitosamente.\n\n     Ver en carpeta de destino?");
 
-        confirmation.showAndWait();
+        ButtonType buttonYes = new ButtonType("Abrir carpeta", ButtonData.YES);
 
-        try {
+        ButtonType buttonNo = new ButtonType("No", ButtonData.NO);
 
-            String s = System.getProperty("os.name").toLowerCase();
+        confirmation.getButtonTypes().setAll(buttonYes, buttonNo);
 
-            if (s.contains("linux")) {
-                Runtime.getRuntime().exec("nautilus " + selectedDirectory.getAbsolutePath());
+        Optional<ButtonType> result = confirmation.showAndWait();
+        if (result.get() == buttonYes) {
+            try {
 
-            } else if (s.contains("windows")) {
-                Runtime.getRuntime().exec("explorer.exe " + selectedDirectory.getAbsolutePath());
-            } else if (s.contains("mac")) {
-                Runtime.getRuntime().exec("open " + selectedDirectory.getAbsolutePath());
+                String s = System.getProperty("os.name").toLowerCase();
+
+                if (s.contains("linux")) {
+                    Runtime.getRuntime().exec("nautilus " + selectedDirectory.getAbsolutePath());
+
+                } else if (s.contains("windows")) {
+                    Runtime.getRuntime().exec("explorer.exe " + selectedDirectory.getAbsolutePath());
+                } else if (s.contains("mac")) {
+                    Runtime.getRuntime().exec("open " + selectedDirectory.getAbsolutePath());
+                }
+
+            } catch (IOException e) {
+
+                e.printStackTrace();
             }
-
-        } catch (IOException e) {
-
-            e.printStackTrace();
         }
 
     }
