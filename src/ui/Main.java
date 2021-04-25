@@ -3,6 +3,7 @@ package ui;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Scanner;
 
 import javafx.application.Application;
@@ -10,7 +11,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import model.InsertsGenerator;
+import model.*;
 
 public class Main extends Application {
 
@@ -82,14 +83,14 @@ public class Main extends Application {
 
         try {
 
-            String s = System.getProperty("os.name");
+            String s = System.getProperty("os.name").toLowerCase();
 
-            if (s.contains("Linux")) {
+            if (s.contains("linux")) {
                 Runtime.getRuntime().exec("nautilus " + selectedDirectory.getAbsolutePath());
 
-            } else if (s.contains("Windows")) {
+            } else if (s.contains("windows")) {
                 Runtime.getRuntime().exec("explorer.exe " + selectedDirectory.getAbsolutePath());
-            } else if (s.contains("MacOS")) {
+            } else if (s.contains("mac")) {
                 Runtime.getRuntime().exec("open " + selectedDirectory.getAbsolutePath());
             }
 
