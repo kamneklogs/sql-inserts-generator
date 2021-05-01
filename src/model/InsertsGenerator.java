@@ -1,10 +1,6 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class InsertsGenerator {
 
@@ -21,10 +17,10 @@ public class InsertsGenerator {
     private static final String[] townNameSeed = { "Siempre Viva", "Castillo", "Aures", "New New York", "Springfield",
             "Ciudad Cordoba", "San Cristobal", "Jardin", "Lourdes", "AgnosVille", "AV. Panamericana" };
 
-    private HashMap<String, HashSet<String>> keysByTable;
+    private HashMap<String, List<String>> keysByTable;
 
     public InsertsGenerator() {
-        keysByTable = new HashMap<String, HashSet<String>>();
+        keysByTable = new HashMap<String, List<String>>();
     }
 
     // Format example --->>> numRecsToGenerateByTable=int, tableName=varchar,
@@ -42,7 +38,7 @@ public class InsertsGenerator {
             String key = (tableName.substring(0, 3).toUpperCase() + subKey);
 
             if (!keysByTable.containsKey(tableName)) {
-                keysByTable.put(tableName, new HashSet<String>());
+                keysByTable.put(tableName, new ArrayList<String>());
             }
             keysByTable.get(tableName).add(key);
 
@@ -72,11 +68,11 @@ public class InsertsGenerator {
                                 + departmentNameSeed[(int) (ram.nextDouble() * departmentNameSeed.length - 1)] + "'";
 
                         break;
-                    case "ramdomNumber":
-                        t += ", " + (int) (ram.nextInt());
+                    case "randomNumber":
+                        t += ", " +  (ram.nextInt());
 
                         break;
-                    case "positiveRamdomNumber":
+                    case "positiveRandomNumber":
                         t += ", " + (int) (ram.nextDouble() * 100000000);
                         break;
 
@@ -86,6 +82,12 @@ public class InsertsGenerator {
                         break;
                     case "sex":
                         t += ", " + "'" + (ram.nextBoolean() ? "male" : "female") + "'";
+                        break;
+                    case "foreignKey":
+
+                        String foreignKeyOrigin = format.get(j + 1);
+                        t += ", " + getForeignKey(foreignKeyOrigin);
+                        j++;
                         break;
                     default:
                         t += ", " + "null";
@@ -98,6 +100,24 @@ public class InsertsGenerator {
         }
 
         return gens;
+    }
+
+    private String getForeignKey(String tableName) {
+
+       List<String> temp = keysByTable.get(tableName);
+        Random r = new Random();
+
+        return temp.get((int)(r.nextDouble()*(temp.size()-1)));
+
+    }
+
+    public List<String> getTablesNames(){
+        List<String> r =  new ArrayList<>(keysByTable.keySet()) ;
+        return r;
+    }
+
+    public boolean tableExixts(String tableName){
+        return keysByTable.containsKey(tableName);
     }
 
 }
