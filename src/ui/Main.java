@@ -1,9 +1,14 @@
 package ui;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.Buffer;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.Scanner;
 
 import javafx.application.Application;
@@ -15,15 +20,33 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import model.*;
 
-public class Main extends Application {
+public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
-        launch(args);
+        // launch(args);
 
+        InsertsGenerator g = new InsertsGenerator();
+        ArrayList<String> format = new ArrayList<>();
+
+        format.add("name");
+        format.add("lName");
+        format.add("sex");
+        format.add("DOB");
+        format.add("departmentName");
+        format.add("address");
+
+        List<String> r = g.generateData("employee", 110, format);
+
+        BufferedWriter bw = new BufferedWriter(new FileWriter(new File("INSERTS.sql")));
+        for (String string : r) {
+            bw.write(string + "\n");
+        }
+
+        bw.close();
     }
 
-    @Override
+    // @Override
     public void start(Stage primaryStage) {
 
         Scanner r = new Scanner(System.in);
@@ -32,15 +55,24 @@ public class Main extends Application {
 
         String tableName = r.nextLine();
 
-        System.out.println("Ingrese el numero de inserts");
+        ArrayList<ArrayList<String>> insertsData = new ArrayList<ArrayList<String>>();
 
-        int n = Integer.parseInt(r.nextLine());
+        int numTable = Integer.parseInt(r.nextLine());
 
-        ArrayList<String> insertsData = new ArrayList<String>();
-        System.out.println(
-                "Ingrese el record con sus celdas separadas por comas (,) y despues dé enter:\nEjemplo: 'SL21', 'Juan David', 'Gomez','manager', 'M','1-Oct-20', 30000, 'B005'");
-        for (int i = 0; i < n; i++) {
-            insertsData.add(r.nextLine());
+        for (int i = 0; i < numTable; i++) {
+
+            insertsData.add(new ArrayList<String>());
+
+            System.out.println("Ingrese el numero de inserts");
+
+            int n = Integer.parseInt(r.nextLine());
+
+            System.out.println(
+                    "Ingrese el record con sus celdas separadas por comas (,) y despues dé enter:\nEjemplo: 'SL21', 'Juan David', 'Gomez','manager', 'M','1-Oct-20', 30000, 'B005'");
+
+            for (int j = 0; j < n; j++) {
+                insertsData.get(i).add(r.nextLine());
+            }
         }
 
         r.close();
@@ -58,21 +90,23 @@ public class Main extends Application {
         File selectedDirectory = directoryChooser.showDialog(primaryStage);
         System.out.println(selectedDirectory.getAbsolutePath());
 
-        InsertsGenerator iG = new InsertsGenerator(new File(selectedDirectory.getAbsolutePath() + "/INSERTS.sql"));
+        // InsertsGenerator iG = new InsertsGenerator(new
+        // File(selectedDirectory.getAbsolutePath() + "/INSERTS.sql"));
 
-        try {
-            iG.generate(insertsData, tableName);
-        } catch (IOException e) {
-
-            Alert confirmation = new Alert(AlertType.ERROR);
-
-            confirmation.setTitle("Error");
-            confirmation.setHeaderText(null);
-            confirmation.setContentText("Error con la carpeta de destino, verifique y vuelva a intentar");
-
-            confirmation.showAndWait();
-
-        }
+        /*
+         * try { iG.generate(insertsData, tableName); } catch (IOException e) {
+         * 
+         * Alert confirmation = new Alert(AlertType.ERROR);
+         * 
+         * confirmation.setTitle("Error"); confirmation.setHeaderText(null);
+         * confirmation.
+         * setContentText("Error con la carpeta de destino, verifique y vuelva a intentar"
+         * );
+         * 
+         * confirmation.showAndWait();
+         * 
+         * }
+         */
 
         Alert confirmation = new Alert(AlertType.CONFIRMATION);
         confirmation.setTitle("Operación exitosa");
@@ -93,7 +127,6 @@ public class Main extends Application {
 
                 if (s.contains("linux")) {
                     Runtime.getRuntime().exec("nautilus " + selectedDirectory.getAbsolutePath());
-
                 } else if (s.contains("windows")) {
                     Runtime.getRuntime().exec("explorer.exe " + selectedDirectory.getAbsolutePath());
                 } else if (s.contains("mac")) {
@@ -103,6 +136,7 @@ public class Main extends Application {
             } catch (IOException e) {
 
                 e.printStackTrace();
+
             }
         }
 
