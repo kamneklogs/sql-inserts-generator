@@ -16,7 +16,7 @@ import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import model.*;
+import model.InsertsGenerator;
 
 public class Main extends Application {
 
@@ -26,7 +26,7 @@ public class Main extends Application {
 
     }
 
-    public static void showDataTypes(int i) {
+    public static void showDataTypes(int i, int existOthersTables) {
         System.out.println("Tipo de dato de la columna " + (i + 1) + ":");
         System.out.println("1. Primer nombre aleatorio de una persona");
         System.out.println("2. Primer apellido aleatorio de una persona");
@@ -36,7 +36,10 @@ public class Main extends Application {
         System.out.println("6. Número aleatorio");
         System.out.println("7. Número aleatorio positivo");
         System.out.println("8. Dirección aleatoria");
-        System.out.println("9. Clave foranea");
+
+        if (existOthersTables != 0) {
+            System.out.println("9. Clave foranea");
+        }
 
     }
 
@@ -49,23 +52,25 @@ public class Main extends Application {
         int numTablesToGenerate = Integer.parseInt(r.nextLine());
 
         List<String> dateGenerated = new ArrayList<String>();
+        int tablesGenerates = 0;
 
         for (int i = 0; i < numTablesToGenerate; i++) {
 
             System.out.println("Ingrese el nombre de la tabla " + (i + 1));
 
             String tableName = r.nextLine();
-            System.out.println("Ingrese el numero  de registros a generar para la tabla " + tableName);
+            System.out.println(
+                    "¿Cantidad de registros que desea generar para la tabla  " + tableName.toUpperCase() + "?");
 
             int numToRecords = Integer.parseInt(r.nextLine());
 
             List<String> format = new ArrayList<String>();
-            System.out.println("Ingrese el número de columnas a registrar (No tenga en cuenta la PK)");
+            System.out.println("¿Cuantas columnas tiene la tabla? \nNota: No tenga en cuenta la PK");
             int numOfColumns = Integer.parseInt(r.nextLine());
 
             for (int j = 0; j < numOfColumns; j++) {
 
-                showDataTypes(j);
+                showDataTypes(j, tablesGenerates);
 
                 int opt = Integer.parseInt(r.nextLine());
 
@@ -73,7 +78,6 @@ public class Main extends Application {
                     case 1:
                         format.add("name");
                         break;
-
                     case 2:
                         format.add("lName");
                         break;
@@ -88,7 +92,6 @@ public class Main extends Application {
                         break;
                     case 6:
                         format.add("randomNumber");
-
                         break;
                     case 7:
                         format.add("positiveRandomNumber");
@@ -96,7 +99,6 @@ public class Main extends Application {
                     case 8:
                         format.add("address");
                         break;
-
                     case 9:
                         format.add("foreignKey");
 
@@ -114,20 +116,25 @@ public class Main extends Application {
 
             }
 
-            dateGenerated.addAll(ig.generateData(tableName, numToRecords, format));
-            dateGenerated.add("\n");
+            System.out.println("¿Generar clave primara para esta tabla?\n1. Si\n2. No");
 
+            boolean pKRequired = (Integer.parseInt(r.nextLine()) == 1 ? true : false);
+
+            dateGenerated.addAll(ig.generateData(tableName, numToRecords, format, pKRequired));
+            dateGenerated.add("\n");
+            tablesGenerates++;
         }
+
+        r.close();
 
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Aviso");
         alert.setHeaderText(null);
-        alert.setContentText("Datos generados exitosamente, ahora escoja\ncarpeta para exportar el archivo");
+        alert.setContentText("Datos generados exitosamente, ahora escoja\nla carpeta para exportar el archivo");
 
         alert.showAndWait();
 
         DirectoryChooser directoryChooser = new DirectoryChooser();
-        directoryChooser.setInitialDirectory(new File("src"));
 
         File selectedDirectory = directoryChooser.showDialog(primaryStage);
         System.out.println(selectedDirectory.getAbsolutePath());
@@ -139,7 +146,6 @@ public class Main extends Application {
         }
 
         bw.close();
-      
 
         Alert confirmation = new Alert(AlertType.CONFIRMATION);
         confirmation.setTitle("Operación exitosa");
