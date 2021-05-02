@@ -36,9 +36,10 @@ public class Main extends Application {
         System.out.println("6. Número aleatorio");
         System.out.println("7. Número aleatorio positivo");
         System.out.println("8. Dirección aleatoria");
+        System.out.println("9. Dato nulo");
 
         if (existOthersTables != 0) {
-            System.out.println("9. Clave foranea");
+            System.out.println("10. Clave foranea");
         }
 
     }
@@ -102,6 +103,9 @@ public class Main extends Application {
                             format.add("address");
                             break;
                         case 9:
+                            format.add("Null");
+                            break;
+                        case 10:
 
                             List<String> existentTables = ig.getTablesNames();
 
