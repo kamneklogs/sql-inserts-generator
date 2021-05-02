@@ -56,7 +56,7 @@ public class InsertsGenerator {
                 if (pKRequired) {
                     t += ",";
                 } else {
-                    if (j > 0 && j < (format.size() - 1)) {
+                    if (j > 0 && j < (format.size())) {
                         t += ",";
                     }
                 }
