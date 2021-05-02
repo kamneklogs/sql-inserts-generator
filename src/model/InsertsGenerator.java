@@ -99,7 +99,7 @@ public class InsertsGenerator {
                                 + townNameSeed[(int) (ram.nextDouble() * townNameSeed.length - 1)] + "'";
                         break;
                     case "sex":
-                        t += "'" + (ram.nextBoolean() ? "male" : "female") + "'";
+                        t += "'" + (ram.nextBoolean() ? "M" : "F") + "'";
                         break;
                     case "foreignKey":
 
