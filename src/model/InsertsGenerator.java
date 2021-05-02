@@ -72,13 +72,12 @@ public class InsertsGenerator {
 
                         break;
                     case "DOB":
-
                         int year = (int) (ram.nextDouble() * 45) + 1960;
                         int month = 1 + (int) (ram.nextDouble() * 11);
                         int day = 1 + (int) (ram.nextDouble() * 30);
 
-                        t += "'" + year + "-" + (month < 10 ? ("0" + month) : month) + "-"
-                                + (day < 10 ? ("0" + day) : day) + "'";
+                        t += "TO_DATE('" + (day < 10 ? ("0" + day) : day) + "/" + (month < 10 ? ("0" + month) : month)
+                                + "/" + year + "', 'dd/mm/yyyy' )";
 
                         break;
                     case "departmentName":
