@@ -20,7 +20,7 @@ import model.InsertsGenerator;
 
 public class Main extends Application {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
         launch(args);
 
@@ -44,140 +44,171 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws IOException {
+    public void start(Stage primaryStage) {
+        try {
 
-        InsertsGenerator ig = new InsertsGenerator();
-        Scanner r = new Scanner(System.in);
-        System.out.println("Ingrese el numero de tablas a generar");
-        int numTablesToGenerate = Integer.parseInt(r.nextLine());
+            InsertsGenerator ig = new InsertsGenerator();
+            Scanner r = new Scanner(System.in);
+            System.out.println("Ingrese el numero de tablas a generar");
+            int numTablesToGenerate = Integer.parseInt(r.nextLine());
 
-        List<String> dateGenerated = new ArrayList<String>();
-        int tablesGenerates = 0;
+            List<String> dateGenerated = new ArrayList<String>();
+            int tablesGenerates = 0;
 
-        for (int i = 0; i < numTablesToGenerate; i++) {
+            for (int i = 0; i < numTablesToGenerate; i++) {
 
-            System.out.println("Ingrese el nombre de la tabla " + (i + 1));
+                System.out.println("Ingrese el nombre de la tabla " + (i + 1)
+                        + "\nEl nombre debe tener por lo menos 4 caracteres");
 
-            String tableName = r.nextLine();
-            System.out.println(
-                    "¿Cantidad de registros que desea generar para la tabla  " + tableName.toUpperCase() + "?");
+                String tableName = r.nextLine();
+                System.out.println(
+                        "¿Cantidad de registros que desea generar para la tabla  " + tableName.toUpperCase() + "?");
 
-            int numToRecords = Integer.parseInt(r.nextLine());
+                int numToRecords = Integer.parseInt(r.nextLine());
 
-            List<String> format = new ArrayList<String>();
-            System.out.println("¿Cuantas columnas tiene la tabla? \nNota: No tenga en cuenta la PK");
-            int numOfColumns = Integer.parseInt(r.nextLine());
+                List<String> format = new ArrayList<String>();
+                System.out.println("¿Cuantas columnas tiene la tabla? \nNota: No tenga en cuenta la PK");
+                int numOfColumns = Integer.parseInt(r.nextLine());
 
-            for (int j = 0; j < numOfColumns; j++) {
+                for (int j = 0; j < numOfColumns; j++) {
 
-                showDataTypes(j, tablesGenerates);
+                    showDataTypes(j, tablesGenerates);
 
-                int opt = Integer.parseInt(r.nextLine());
+                    int opt = Integer.parseInt(r.nextLine());
 
-                switch (opt) {
-                    case 1:
-                        format.add("name");
-                        break;
-                    case 2:
-                        format.add("lName");
-                        break;
-                    case 3:
-                        format.add("sex");
-                        break;
-                    case 4:
-                        format.add("DOB");
-                        break;
-                    case 5:
-                        format.add("departmentName");
-                        break;
-                    case 6:
-                        format.add("randomNumber");
-                        break;
-                    case 7:
-                        format.add("positiveRandomNumber");
-                        break;
-                    case 8:
-                        format.add("address");
-                        break;
-                    case 9:
-                        format.add("foreignKey");
+                    switch (opt) {
+                        case 1:
+                            format.add("name");
+                            break;
+                        case 2:
+                            format.add("lName");
+                            break;
+                        case 3:
+                            format.add("sex");
+                            break;
+                        case 4:
+                            format.add("DOB");
+                            break;
+                        case 5:
+                            format.add("departmentName");
+                            break;
+                        case 6:
+                            format.add("randomNumber");
+                            break;
+                        case 7:
+                            format.add("positiveRandomNumber");
+                            break;
+                        case 8:
+                            format.add("address");
+                            break;
+                        case 9:
 
-                        List<String> existentTables = ig.getTablesNames();
-                        System.out.println("Escoja la tabla de origen");
+                            List<String> existentTables = ig.getTablesNames();
 
-                        for (int k = 0; k < existentTables.size(); k++) {
-                            System.out.println((k + 1) + " " + existentTables.get(k));
-                        }
+                            if (existentTables.size() != 0) {
 
-                        opt = Integer.parseInt(r.nextLine());
-                        format.add(existentTables.get(opt - 1));
-                        break;
+                                format.add("foreignKey");
+
+                                System.out.println("Escoja la tabla de origen");
+
+                                for (int k = 0; k < existentTables.size(); k++) {
+                                    System.out.println((k + 1) + " " + existentTables.get(k));
+                                }
+
+                                opt = Integer.parseInt(r.nextLine());
+                                format.add(existentTables.get(opt - 1));
+                            } else {
+                                System.out.println("SIN TABLAS EXISTENTES CON PK VALIDAS");
+                            }
+
+                            break;
+                    }
+
                 }
 
+                System.out.println("¿Generar clave primara para esta tabla?\n1. Si\n2. No");
+
+                boolean pKRequired = (Integer.parseInt(r.nextLine()) == 1 ? true : false);
+
+                dateGenerated.addAll(ig.generateData(tableName, numToRecords, format, pKRequired));
+                dateGenerated.add("\n");
+                tablesGenerates++;
             }
 
-            System.out.println("¿Generar clave primara para esta tabla?\n1. Si\n2. No");
+            r.close();
 
-            boolean pKRequired = (Integer.parseInt(r.nextLine()) == 1 ? true : false);
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Aviso");
+            alert.setHeaderText(null);
+            alert.setContentText("Datos generados exitosamente, ahora escoja\nla carpeta para exportar el archivo");
 
-            dateGenerated.addAll(ig.generateData(tableName, numToRecords, format, pKRequired));
-            dateGenerated.add("\n");
-            tablesGenerates++;
-        }
+            alert.showAndWait();
 
-        r.close();
+            DirectoryChooser directoryChooser = new DirectoryChooser();
 
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Aviso");
-        alert.setHeaderText(null);
-        alert.setContentText("Datos generados exitosamente, ahora escoja\nla carpeta para exportar el archivo");
+            File selectedDirectory = directoryChooser.showDialog(primaryStage);
+            System.out.println(selectedDirectory.getAbsolutePath());
+            BufferedWriter bw = new BufferedWriter(
+                    new FileWriter(new File(selectedDirectory.getAbsolutePath() + "/INSERTS.sql")));
 
-        alert.showAndWait();
+            for (String s : dateGenerated) {
+                bw.write(s + "\n");
+            }
 
-        DirectoryChooser directoryChooser = new DirectoryChooser();
+            bw.close();
 
-        File selectedDirectory = directoryChooser.showDialog(primaryStage);
-        System.out.println(selectedDirectory.getAbsolutePath());
-        BufferedWriter bw = new BufferedWriter(
-                new FileWriter(new File(selectedDirectory.getAbsolutePath() + "/INSERTS.sql")));
+            Alert confirmation = new Alert(AlertType.CONFIRMATION);
+            confirmation.setTitle("Operación exitosa");
+            confirmation.setHeaderText(null);
+            confirmation.setContentText("Ver en carpeta de destino?");
 
-        for (String s : dateGenerated) {
-            bw.write(s + "\n");
-        }
+            ButtonType buttonYes = new ButtonType("Abrir carpeta", ButtonData.YES);
 
-        bw.close();
+            ButtonType buttonNo = new ButtonType("No", ButtonData.NO);
 
-        Alert confirmation = new Alert(AlertType.CONFIRMATION);
-        confirmation.setTitle("Operación exitosa");
-        confirmation.setHeaderText(null);
-        confirmation.setContentText("Ver en carpeta de destino?");
+            confirmation.getButtonTypes().setAll(buttonYes, buttonNo);
 
-        ButtonType buttonYes = new ButtonType("Abrir carpeta", ButtonData.YES);
+            Optional<ButtonType> result = confirmation.showAndWait();
+            if (result.get() == buttonYes) {
+                try {
 
-        ButtonType buttonNo = new ButtonType("No", ButtonData.NO);
+                    String s = System.getProperty("os.name").toLowerCase();
 
-        confirmation.getButtonTypes().setAll(buttonYes, buttonNo);
+                    if (s.contains("linux")) {
+                        Runtime.getRuntime().exec("nautilus " + selectedDirectory.getAbsolutePath());
+                    } else if (s.contains("windows")) {
+                        Runtime.getRuntime().exec("explorer.exe " + selectedDirectory.getAbsolutePath());
+                    } else if (s.contains("mac")) {
+                        Runtime.getRuntime().exec("open " + selectedDirectory.getAbsolutePath());
+                    }
 
-        Optional<ButtonType> result = confirmation.showAndWait();
-        if (result.get() == buttonYes) {
-            try {
+                } catch (IOException e) {
 
-                String s = System.getProperty("os.name").toLowerCase();
+                    e.printStackTrace();
 
-                if (s.contains("linux")) {
-                    Runtime.getRuntime().exec("nautilus " + selectedDirectory.getAbsolutePath());
-                } else if (s.contains("windows")) {
-                    Runtime.getRuntime().exec("explorer.exe " + selectedDirectory.getAbsolutePath());
-                } else if (s.contains("mac")) {
-                    Runtime.getRuntime().exec("open " + selectedDirectory.getAbsolutePath());
                 }
-
-            } catch (IOException e) {
-
-                e.printStackTrace();
-
             }
+        } catch (NumberFormatException e) {
+            Alert confirmation = new Alert(AlertType.ERROR);
+            confirmation.setTitle("Error");
+            confirmation.setHeaderText(null);
+            confirmation.setContentText("Formato ingresado erroneo");
+            confirmation.showAndWait();
+
+        } catch (IOException e) {
+            Alert confirmation = new Alert(AlertType.ERROR);
+            confirmation.setTitle("Error");
+            confirmation.setHeaderText(null);
+            confirmation.setContentText("Problema guardando el archivo en la carpeta seleccionada");
+            confirmation.showAndWait();
         }
+
+        Alert confirmation = new Alert(AlertType.INFORMATION);
+        confirmation.setTitle("Inserts Generator SQL v0.1");
+        confirmation.setHeaderText("Gracias por usar");
+        confirmation.setContentText(
+                "Desarrolladores:\n\n    Andrea Nuñez\n      GitHub: andreanr19\n\n      Camilo Cordoba\n     GitHub: kamneklogs");
+        confirmation.showAndWait();
 
     }
 
