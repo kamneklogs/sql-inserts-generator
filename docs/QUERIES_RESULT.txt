@@ -1,0 +1,95 @@
+
+EMPNO                FNAME                          LNAME                          ADDRESS                        DOB       S POSITION                       DEPTNO              
+-------------------- ------------------------------ ------------------------------ ------------------------------ --------- - ------------------------------ --------------------
+EMP000               Luz                            Cardona                        5044 AgnosVille                15-FEB-96 F Jefe                           DEP000              
+EMP001               Danna                          Hurtado                        3475 Siempre Viva              15-JUL-69 M Jefe                           DEP001              
+EMP002               Andrea                         Escobar                        4498 La Revolucion             24-OCT-99 M Jefe                           DEP002              
+EMP003               Nelson                         Mosquera                       3300 Las Margaritas            12-OCT-66 M Jefe                           DEP003              
+EMP004               Luz                            Valencia                       5705 Aures                     29-FEB-04 F Jefe                           DEP004              
+EMP005               Camila                         Cordoba                        7127 Pance                     08-AUG-92 M Jefe                           DEP005              
+EMP006               Anibal                         Corrales                       1463 Springfield               24-OCT-93 M Jefe                           DEP006              
+EMP007               Andrea                         Gutierrez                      9429 Springfield               17-JUN-89 M Jefe                           DEP007              
+EMP008               Juan                           Villegas                       10139 Castillo                 13-MAY-72 M Jefe                           DEP008              
+EMP009               Jose                           Lopez                          10548 San Cristobal            21-APR-75 F Jefe                           DEP009              
+EMP010               Anibal                         Romero                         2053 Ciudad Cordoba            09-JUL-86 F Jefe                           DEP010              
+
+EMPNO                FNAME                          LNAME                          ADDRESS                        DOB       S POSITION                       DEPTNO              
+-------------------- ------------------------------ ------------------------------ ------------------------------ --------- - ------------------------------ --------------------
+EMP011               Andrea                         Garcia                         10914 Pance                    22-JUL-73 M Jefe                           DEP011              
+EMP012               Valentina                      Lopez                          9095 Siempre Viva              12-APR-67 F Jefe                           DEP012              
+EMP013               Alejandro                      Rodriguez                      1834 Las Lomas                 13-SEP-81 M Jefe                           DEP013              
+EMP014               Anderson                       Hurtado                        2193 Terron Colorado           11-MAY-60 F Jefe                           DEP014              
+EMP015               Laura                          Escobar                        7446 Siempre Viva              13-OCT-82 F Jefe                           DEP015              
+EMP016               Natalia                        Hurtado                        2537 Ciudad Cordoba            02-JAN-97 M Jefe                           DEP016              
+EMP017               Valentina                      Nuñez                          4807 La Revolucion             19-AUG-62 F Jefe                           DEP017              
+EMP018               Camilo                         Triana                         2232 New New York              30-MAY-69 F Jefe                           DEP018              
+EMP019               Lucas                          Bolivar                        6094 Springfield               06-JUN-82 M Jefe                           DEP019              
+EMP020               Camilo                         Gutiérrez                      1982 Alaska                    08-AUG-51 M Subordinado                    DEP005              
+
+21 rows selected. 
+
+
+EMPNO                FNAME                          LNAME                          ADDRESS                        DOB       S POSITION                       DEPTNO              
+-------------------- ------------------------------ ------------------------------ ------------------------------ --------- - ------------------------------ --------------------
+EMP000               Luz                            Cardona                        5044 AgnosVille                15-FEB-96 F Jefe                           DEP000              
+EMP004               Luz                            Valencia                       5705 Aures                     29-FEB-04 F Jefe                           DEP004              
+EMP009               Jose                           Lopez                          10548 San Cristobal            21-APR-75 F Jefe                           DEP009              
+EMP010               Anibal                         Romero                         2053 Ciudad Cordoba            09-JUL-86 F Jefe                           DEP010              
+EMP012               Valentina                      Lopez                          9095 Siempre Viva              12-APR-67 F Jefe                           DEP012              
+EMP014               Anderson                       Hurtado                        2193 Terron Colorado           11-MAY-60 F Jefe                           DEP014              
+EMP015               Laura                          Escobar                        7446 Siempre Viva              13-OCT-82 F Jefe                           DEP015              
+EMP017               Valentina                      Nuñez                          4807 La Revolucion             19-AUG-62 F Jefe                           DEP017              
+EMP018               Camilo                         Triana                         2232 New New York              30-MAY-69 F Jefe                           DEP018              
+
+9 rows selected. 
+
+
+FNAME                          ADDRESS                       
+------------------------------ ------------------------------
+Luz                            5044 AgnosVille               
+Danna                          3475 Siempre Viva             
+Andrea                         4498 La Revolucion            
+Nelson                         3300 Las Margaritas           
+Luz                            5705 Aures                    
+Camila                         7127 Pance                    
+Anibal                         1463 Springfield              
+Andrea                         9429 Springfield              
+Juan                           10139 Castillo                
+Jose                           10548 San Cristobal           
+Anibal                         2053 Ciudad Cordoba           
+
+FNAME                          ADDRESS                       
+------------------------------ ------------------------------
+Andrea                         10914 Pance                   
+Valentina                      9095 Siempre Viva             
+Alejandro                      1834 Las Lomas                
+Anderson                       2193 Terron Colorado          
+Laura                          7446 Siempre Viva             
+Natalia                        2537 Ciudad Cordoba           
+Valentina                      4807 La Revolucion            
+Camilo                         2232 New New York             
+Lucas                          6094 Springfield              
+
+20 rows selected. 
+
+
+FNAME                          ADDRESS                       
+------------------------------ ------------------------------
+Luz                            5044 AgnosVille               
+
+
+EMPNO                FNAME                          LNAME                          ADDRESS                        DOB       S POSITION                       DEPTNO              
+-------------------- ------------------------------ ------------------------------ ------------------------------ --------- - ------------------------------ --------------------
+EMP013               Alejandro                      Rodriguez                      1834 Las Lomas                 13-SEP-81 M Jefe                           DEP013              
+
+
+EMPNO                FNAME                          LNAME                          ADDRESS                        DOB       S POSITION                       DEPTNO              
+-------------------- ------------------------------ ------------------------------ ------------------------------ --------- - ------------------------------ --------------------
+EMP014               Anderson                       Hurtado                        2193 Terron Colorado           11-MAY-60 F Jefe                           DEP014              
+EMP017               Valentina                      Nuñez                          4807 La Revolucion             19-AUG-62 F Jefe                           DEP017              
+
+
+EMPNO                FNAME                          LNAME                          ADDRESS                        DOB       S POSITION                       DEPTNO              
+-------------------- ------------------------------ ------------------------------ ------------------------------ --------- - ------------------------------ --------------------
+EMP020               Camilo                         Gutiérrez                      1982 Alaska                    08-AUG-51 M Subordinado                    DEP005              
+
