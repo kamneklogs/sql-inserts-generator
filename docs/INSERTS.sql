@@ -258,6 +258,17 @@ VALUES (
 		'Jefe',
 		'DEP019'
 	);
+INSERT INTO EMPLOYEE 
+VALUES ( 'EMP020',
+		 'Camilo',
+		 'Gutiérrez',
+		 '1982 Alaska',
+		 TO_DATE('08/08/1951', 'dd/mm/yyyy' ),
+		 'M',
+		 'Subordinado',
+		 'DEP005' 
+	);
+
 UPDATE DEPARTMENT
 SET EMPNO = 'EMP000'
 WHERE DEPTNO = 'DEP000';
